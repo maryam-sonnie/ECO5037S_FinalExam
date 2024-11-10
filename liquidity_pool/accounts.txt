@@ -1,0 +1,28 @@
+Funded Account:
+
+Private key: UbcuSgcYZm+/t3WsMuvxHWFiwdiJB2H3oXlrij14fUUUyrzvgAm6b7vZCJojpy/SXwDj0h+nTbUNDJ67BerIWg== 
+Algo address: CTFLZ34ABG5G7O6ZBCNCHJZP2JPQBY6SD6TU3NINBSPLWBPKZBNLQZ5TMY
+Mnemonic phrase: tuition river pink lesson slow swift sadness interest few proud wedding balcony shadow core excite always umbrella march rubber pluck kitchen fun cloud able actor
+
+Liquidity Pool:
+
+Private key: Q0KJ2kyV/vUf5825EgT9qsEVlBXAiVmeoYL3kIUsTEWa8BNMa8pnxEFCu5Cpwb3lNPBx83u6bSssQEIDgIaeDA== 
+Algo address: TLYBGTDLZJT4IQKCXOIKTQN54U2PA4PTPO5G2KZMIBBAHAEGTYGK467AXY
+Mnemonic phrase: embody celery hood feel wood word decline social fire aware leader boy clog govern absent mean sleep major scout author arctic arctic clerk able disorder
+
+
+Liquidity Provider:
+
+Private key: m8f58rq6aPyW9mtorlY09/2qbVl1tRn3+jpykk9WwVra/5AnKQdo14J4vW/YtI7xlHQ3MC2QvaGQqMoSgahUww== 
+Algo address: 3L7ZAJZJA5UNPATYXVX5RNEO6GKHINZQFWIL3IMQVDFBFANIKTBXOMG3NE
+Mnemonic phrase: vibrant train just produce sphere sample regret hip snack follow olive term field fork print rely tobacco type buddy cheese palace few stock able spend
+The address is valid!
+
+Trader:
+Private key: 6czTKjVSaglO5ziKBpfmvYllBDhZNup3XGXxjMZxkLmILo4BWP5XdU5kmh6uNsRvVdmfIngrHC6F1ZtyBGK+SA== 
+Algo address: RAXI4AKY7ZLXKTTETIPK4NWEN5K5THZCPAVRYLUF2WNXEBDCXZEPFXKJEM
+Mnemonic phrase: outdoor execute nice cash start liquid denial decline spend foster viable orange slam absurd six curve wool impact razor someone minimum broccoli smart absent bag
+The address is valid!
+
+
+
