@@ -1,0 +1,26 @@
+Stokvel users:
+
+Private key: 3hIxq5CXSjGuyDl+hZdD+imrR/EivudcfVz1W7c2m1KCreZWcwliZ05gBtpPxrMKLVIr5MJjalOctavXz+wjAg== 
+Algo address: QKW6MVTTBFRGOTTAA3NE7RVTBIWVEK7EYJRWUU44WWV5PT7MEMBBZB3WEM
+Mnemonic phrase: forward session few jungle news middle earth degree quit fun canyon panic film faint bleak sail ostrich voice purchase satisfy huge soap network able resemble
+
+Private key: 25fqTbgXnGGbQy2Xa7aRxHgTGy7Sytmwwdu4MVrAKfahK3xKRD57mhCOjKp7/bTXIG/N5jg9nFy3rslGjhkE/A== 
+Algo address: UEVXYSSEHZ5ZUEEORSVHX7NU24QG7TPGHA6ZYXFXV3EUNDQZAT6DD4NCMM
+Mnemonic phrase: window prevent cheap knee deal such broom coil indicate super emotion middle cheap man multiply skull brass almost hospital breeze refuse hybrid rally abstract dragon
+
+Private key: Vo2Hla6Vxs7nPVVuwQnXg1Dfqn0Ypirlk82TlRMOOz4DNvCw10SiAzpEbTAJ/WO7Rfzot4XB/1ovPp2eDkLsrQ== 
+Algo address: AM3PBMGXISRAGOSENUYAT7LDXNC7Z2FXQXA76WRPH2OZ4DSC5SW2TCBHNI
+Mnemonic phrase: print bullet enlist foot minor victory upset festival column check twist amused salt height sentence plastic pipe exhibit traffic float cheese seminar vault ability stomach
+
+Private key: krGcFTi3S4o3qSC+1x5ay4b3kgclSfpAtUWMAJF774pAftvxJshiRAg5JEEpuD8e9ahOEOKdeWcdy5djzFerWA==
+Algo address: IB7NX4JGZBREICBZERASTOB7D322QTQQ4KOXSZY5ZOLWHTCXVNME5J26X4
+Mnemonic phrase: crane index approve inform number tip endless camera water kitten public hole upper tool choice empty butter steak carpet angle capital ten first above slogan
+
+Private key: QF1nqBYrLrZo63PnwjrQrj45T2bVsl81jaLdDl9aX9rPvg/TL7DjU1907HF0iT5RNVbZQsS9b2ZMXAveV+nAXA==
+Algo address: Z67A7UZPWDRVGX3U5RYXJCJ6KE2VNWKCYS6W6ZSMLQF54V7JYBOCAFUINQ
+Mnemonic phrase: pool output feature ramp fox collect forget initial friend twelve gym turtle include need private ready program crumble spend universe safe story spray absorb bone
+
+STOKVEL MULTISIG ACCOUNT Address:
+
+stokvel_address = EGAK6R6P3R4PLVVETGSZEB42GHOIGM56Z2VVVW6DL4AUSXQNQQGROALMIM
+
