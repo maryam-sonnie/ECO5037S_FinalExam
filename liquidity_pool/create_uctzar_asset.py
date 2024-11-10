@@ -83,6 +83,14 @@ if __name__ == "__main__":
     print(f"Address: {address}")
 
     issue_asa(address, private_key)
-    
+
+    # Asset creation details:
+
+    # Address: CTFLZ34ABG5G7O6ZBCNCHJZP2JPQBY6SD6TU3NINBSPLWBPKZBNLQZ5TMY
+    # Sent asset create transaction with txid: NHDXIRCAAJ75VHBMHZ6H55T4VNEOIZAATQFYE7BJAIY6EDHETIKA
+    # Result confirmed in round: 45631778
+    # Asset ID created: 728746029
+    # Asset Name: UCTZAR
+    # Asset params: ['clawback', 'creator', 'decimals', 'default-frozen', 'freeze', 'manager', 'name', 'name-b64', 'reserve', 'total', 'unit-name', 'unit-name-b64']
     
     # destroy_asa(1, address, private_key)

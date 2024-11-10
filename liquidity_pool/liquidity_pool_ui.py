@@ -102,12 +102,11 @@ if st.button("Execute Trade"):
     st.session_state.uctzar_transaction_fees = uctzar_transaction_fees
 st.text("Withdraw Liquidity:")
 
-lp_tokens_to_redeem = st.number_input("Enter LP tokens to redeem", min_value=1, step=1)
+lp_tokens_to_redeem = st.number_input("Enter LP tokens (proportion of your stake) to redeem")
 if st.button("Withdraw Liquidity"):
     st.write(f"Liquidity withdrawn: {lp_tokens_to_redeem} LP tokens")
     (allocated_liquidity_tokens, algo_pool_balance, uctzar_pool_balance, total_liquidity_tokens,
-      algo_transaction_fees, uctzar_transaction_fees) = lp_aux.withdraw_liquidity(user_name, lp_tokens_to_redeem, algo_pool_balance, 
-                                                                                  uctzar_pool_balance, total_liquidity_tokens,
+      algo_transaction_fees, uctzar_transaction_fees) = lp_aux.withdraw_liquidity(user_name, lp_tokens_to_redeem, algo_pool_balance, uctzar_pool_balance, total_liquidity_tokens,
                                                                                    allocated_liquidity_tokens,
                                                                                      algo_transaction_fees, uctzar_transaction_fees)
     
