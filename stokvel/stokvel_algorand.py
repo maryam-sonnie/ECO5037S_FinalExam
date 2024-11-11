@@ -293,7 +293,7 @@ if __name__ == "__main__":
 
         #Running the stokvel simulation
         #for testing:
-        df['active'] = 1
+        # df['active'] = 1
         #df['active] = 0
 
         st.write(stokvel_instance.msig.address())
@@ -315,7 +315,13 @@ if __name__ == "__main__":
     
     elif action == "leave stokvel":
         st.header("Leave Stokvel:")
-        pass
 
+        address = st.text_input("Enter your Algorand address:")
+        mn = st.text_input("Enter your Mnemonic Phrase:", type = "password")
+
+        if st.button("Opt out of stokvel"):
+            df.loc[df["address"] == address, "active"] = 0 # marking that the user is active
+            st.session_state.datastore = df
+            st.error("You have left the stokvel")
 #sign up for stockvel
 
