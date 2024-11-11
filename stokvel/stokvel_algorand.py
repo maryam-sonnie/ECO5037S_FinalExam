@@ -29,6 +29,10 @@ class Stokvel:
 
     def sign_up_detailscapture(self, datastore, address, mn):
 
+        """
+        Confirms users as part of the stokvel - allowing for recurring payments and signing the msig
+        """
+
         accounts = datastore["address"].tolist()
 
         if address not in accounts:
@@ -46,9 +50,14 @@ class Stokvel:
     
 
     def check_all_members_active(self, datastore):
+        """Checks if all members have consented to recurring payments"""
         return datastore["active"].eq(1).all()
     
     def contributions(self, datastore, transactions, month):
+
+        """
+        Runs the contribution cycle - updates the datastore where needed
+        """
 
         print(datastore)
 
@@ -64,7 +73,7 @@ class Stokvel:
                 sender=address,
                 sp=sp,
                 receiver=self.msig.address(),
-                amt=int(1*1_000_000) #CHANGE THIS!
+                amt=int(5*1000000) #CHANGE THIS!
             )
 
             stokvel_signed_txn = stokvel_contribution.sign(address_pk)
@@ -78,14 +87,15 @@ class Stokvel:
 
             transactions.append({"icon": "🟥", "id": sent_trans, "address": address, "amount":5, "type": "CONTRIBUTION", "date": month})
 
-            st.write(f"Month: {month}")
-            st.success(f"Contribution from {address} made successfully", icon="✅")
-
             print(transactions)
             st.session_state.transactions = transactions
     
 
     def get_receiver(self, datastore):
+
+        """
+        Randomly selects the payout receiver
+        """
 
         payout_candidates = []
         for index, row in datastore.iterrows():
@@ -98,66 +108,125 @@ class Stokvel:
         return chosen_receiver
     
     def create_msig_payment(self, stokvel_address, chosen_receiver):
+
+        """
+        Creates the msig payment
+        """
         sp = self.algod_client.suggested_params()
         msig_payment = transaction.PaymentTxn(
             sender=stokvel_address,
             sp=sp,
             receiver=chosen_receiver,
-            amt=int(3*1_000_000)#change this as well
+            amt=int(15*1000000)#change this as well
         )
+        print("selfmsig", self.msig)
         msig_transaction = transaction.MultisigTransaction(msig_payment, self.msig)
+        
         return msig_transaction
+    
+    def get_random_signer(self, datastore):
+
+        """
+        Gets four random signers from the stokvel members datastore
+        """
+        return rd.sample(datastore["address"].tolist(), 4)
     
     
     def sign_multisig(self, mn, msig_transaction):
+
+        """
+        Used to sign the multisig
+        """
+
         address_pk = mnemonic.to_private_key(mn)
         msig_transaction.sign(address_pk)
     
     
     def payout_stokvel(self,signed_msig_transaction, chosen_receiver):
+
+        """
+        Allows for stokvel payout and updates datastores and transactiions as required
+        """
+
         try:
-            payout_transaction = self.algod_client.send_transactions([signed_msig_transaction])
+            payout_transaction = self.algod_client.send_transactions(signed_msig_transaction)
+            print(f"Payment made from account {self.msig.address()} to account {chosen_receiver} confirmed in round {payout_transaction['confirmed-round']}")
             transactions.append({"icon": "🟩", "id": payout_transaction, "address": chosen_receiver, "amount":15, "type": "PAYOUT"})
-            st.session_state.transactions.update(transactions)
-            
-            st.success("Payment made successfully", icon="✅")
-        
+            st.session_state.transactions = (transactions)
+
+            st.write("Completing payout...", icon = "⏳")
+            time.sleep(2)
+                    
         except Exception as e:
-            st.error(f"Payment failed: {e} - not enough signatures", icon="🚫")
+            # Error handling with specific information on failed signatures
+            st.error(f"Payment failed: {e} - not enough valid signatures", icon="🚫")
+            print("Error details:", e)
 
     
-    def run_stokvel(self, df, transactions, signature_counts):
-        if stokvel_instance.check_all_members_active(df):
+    def run_stokvel(self, df, transactions, signature_count, stokvel_address):
+        if self.check_all_members_active(df):
             st.success("All members have consented to recurring payments\n The contribution cycle with begin", icon="✅")
             
             for month in range(1, 6):
+                    
+                    st.write(f"⏳Processing contributions from Month: {month}...")
+                    
+
                     print(month)
-                    stokvel_instance.contributions(df, transactions, month)
+                    #contributions on day t
+                    self.contributions(df, transactions, month)
+                    st.success(f"Month: {month}\nContributions from all participants made successfully", icon="✅")
 
                     #at day t+1
                     #create payout
-
                     time.sleep(2)
                     receiver = self.get_receiver(df)
-                    print(receiver)
-                    multisig_transaction = self.create_msig_payment(self.msig.address(), receiver)
+                    print("THIS MONTHS RECIEVER:", receiver)
+
+                    print('CREATING MSIG TRANS')
+
+                    # create new multisig transaction
+                    msig_transaction = self.create_msig_payment(stokvel_address, receiver)
+
+                    print("created msig = ", msig_transaction)
                     
-                    while(signature_counts < 4):
-                        signing_account = st.text_input("Enter your address:")
-                        signing_mn = st.text_input("Enter your mnemonic:")
+                    #ensuring that there are at least 4 signatures before the payouts happen
+                    while(signature_count < 4):
+
+                        print("SIGNATURE COUNT: ", signature_count)   
+                        print("CHECKING SIGNATURES")
+
+                        signers = self.get_random_signer(datastore=df) #random signer - simulates users logging in an signing the stokvel payout
                         
-                        if st.button("Sign"):
-                            stokvel_instance.sign_multisig(signing_mn, multisig_transaction)
-                            signature_counts += 1
-                            st.session_state.signature_count = signature_counts
+                        for signer in signers:
+                            signing_mn = df.loc[df["address"] == signer, "mn"].iloc[0]
+                            print(signing_mn)
+                            print(signer)
+                            try:
+                               
+                                self.sign_multisig(signing_mn, msig_transaction)
+
+                                signature_count += 1
+                                print("SIGNATURE COUNTS: ", signature_count)
+                                st.write("Payout signed by: ", signer)
+                                st.write("Total signatures: ", signature_count)
+
+                                st.session_state.signature_count = signature_count
+                            
+                            except Exception as e:
+                                print("Could not sign - ERROR ADDRESS:", signer )
+                                print(e)
                     
-                    else:
-                        stokvel_instance.payout_stokvel(multisig_transaction, receiver)
+                    if signature_count >= 4:
+                        payout_transaction = self.algod_client.send_transaction(msig_transaction)
+                        transactions.append({"icon": "🟩", "id": payout_transaction, "address": receiver, "amount":15, "type": "PAYOUT"})
+                        st.session_state.transactions = (transactions)
 
-
-        
-        
-        
+                        st.write("Completing payout...", icon = "⏳")
+                        time.sleep(2)                        
+                        st.success("Threshold has been reached and payout has been made", icon="✅")
+                        signature_count = 0
+                        st.session_state.signature_count = signature_count
         else:
             st.error("Some members have not consented to recurring payments", icon="🚫")
 
@@ -166,6 +235,8 @@ class Stokvel:
        
 
 if __name__ == "__main__":
+
+    st.set_page_config(layout="wide")
 
     # Initialize session state variables if they don't exist
     st.session_state.datastore = st.session_state.get('datastore', pd.read_excel("./df_test.xlsx"))
@@ -184,8 +255,11 @@ if __name__ == "__main__":
     chosen_receiver = st.session_state.chosen_receiver   
 
 
+
     st.header("ALGORAND STOKVEL")
     st.subheader("Welcome to the Algogrand stokvel. \nPlease find the constitution below:")
+
+    st.subheader(f"STOKVEL ADDRESS: {stokvel_instance.msig.address()}")
 
     st.text(
         f"""
@@ -199,7 +273,6 @@ if __name__ == "__main__":
         """
 
     )
-
 
 
     actions = ["", "optin", "run stokvel", "view transactions",  "leave stokvel"]
@@ -222,8 +295,11 @@ if __name__ == "__main__":
         #for testing:
         df['active'] = 1
         #df['active] = 0
+
+        st.write(stokvel_instance.msig.address())
+
         st.session_state.datastore = df
-        stokvel_instance.run_stokvel(df, transactions, signature_count)
+        stokvel_instance.run_stokvel(df, transactions, signature_count, stokvel_instance.msig.address())
 
     
     elif action == "view transactions":
@@ -236,13 +312,10 @@ if __name__ == "__main__":
         else:
             st.table(transactions)
 
-
     
     elif action == "leave stokvel":
         st.header("Leave Stokvel:")
         pass
 
-    elif action == "reset all":
-        pass
 #sign up for stockvel
 
